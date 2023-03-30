@@ -33,11 +33,10 @@ const MONGOOSE_URL = process.env.MONGOOSE_URL
 
 const PORT = process.env.PORT || 5000 ;
 
-
+mongoose.set("strictQuery", false);
 mongoose.connect(MONGOOSE_URL , {useNewUrlParser : true , useUnifiedTopology : true})
 .then(()=> app.listen(PORT, ()=> console.log(`Server Running from port ${PORT}`)))
 .catch((err)=> console.log(err.message) )
 
-mongoose.set("strictQuery",false)
 
 // unitil here we make sure that we 're not getting any message warning in console 
