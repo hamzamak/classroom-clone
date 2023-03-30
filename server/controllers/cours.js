@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import Cour from "../models/cour.js";
 import Room from "../models/room.js";
 
-const baseUrl=   "https://classroom-yepp.onrender.com" //"http://localhost:5000"
+const baseUrl= "https://classroom-yepp.onrender.com" //"http://localhost:5000"
 export const getAllThemes = async (req, res) => {
     try {
         let tabThemes =[]
