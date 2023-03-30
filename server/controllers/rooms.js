@@ -4,6 +4,9 @@ import Comment from "../models/comment.js";
 import Cour from "../models/cour.js";
 import Room from "../models/room.js";
 import User from "../models/user.js";
+
+const baseUrl= "https://classroom-yepp.onrender.com" 
+
 function generate_code_room() {
   var pass = '';
   var str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' +
@@ -77,7 +80,7 @@ export const createRoom = async (req, res) => {
         titre: titre,
         description: description,
         tags: tags,
-        theme: `http://localhost:5000/uploads/themes/bg${random}.jpg`
+        theme: `${baseUrl}/uploads/themes/bg${random}.jpg`
       })
     //  console.log(random)
       const createdCour = await cour.save();
