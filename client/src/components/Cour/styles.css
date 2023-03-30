@@ -1,0 +1,9 @@
+#actionPopover {
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    padding-inline: 50px;
+    padding-bottom: 20px;
+}
+
