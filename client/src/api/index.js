@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API = axios.create({ baseURL: 'http://localhost:5000' })
+const API = axios.create({ baseURL: 'https://classroom-yepp.onrender.com' }) //if lanching from local server use http://localhost:5000
 
 // API.interceptors.request.use((req)=> {
 //     if(localStorage.getItem('profile'))  {
