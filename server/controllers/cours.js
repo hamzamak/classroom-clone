@@ -48,7 +48,7 @@ export const updateCour = async (req, res) => {
 
     } catch (error) {
         res.status(404).json({ error })
-    }
+    } 
 
 }
 

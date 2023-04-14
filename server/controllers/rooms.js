@@ -7,6 +7,7 @@ import User from "../models/user.js";
 
 const baseUrl= "https://classroom-yepp.onrender.com" 
 
+
 function generate_code_room() {
   var pass = '';
   var str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' +
@@ -24,8 +25,6 @@ function generate_code_room() {
 export const getRoomsByIdUser = async (req, res) => {
   const { userId } = req.params;
   //  if (!mongoose.Types.ObjectId.isValid(userId)) return res.status(404).send(`No user with id: ${userId}`);
-
-
   try {
     const user = await User.findById(userId);
     const isProfesseur = user.isProfesseur;
@@ -43,8 +42,6 @@ export const getRoomsByIdUser = async (req, res) => {
 
       res.status(200).json({ rooms })
     }
-
-
   } catch (error) {
     res.status(404).json({ "message": error })
   }
@@ -55,14 +52,9 @@ export const getRoomsById = async (req, res) => {
   const { id } = req.params;
   //  if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No user with id: ${id}`);
   try {
-
-
     // sort post from newest to oldest
     let room = await Room.findById(id).populate('cour').populate('professeur').populate('chapitres').populate('etudiants.etudiant').populate('etudiants.chapitresConsultees')
     res.status(200).json({ room })
-
-
-
   } catch (error) {
     res.status(404).json({ "message": error })
   }
