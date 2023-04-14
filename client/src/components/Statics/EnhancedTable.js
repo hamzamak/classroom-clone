@@ -72,7 +72,7 @@ function CustomToolbar({ selectedIds, dispatch, activeRoom }) {
         code_room: result.value.code_cour
       }
       // ici on va utiliser emailjs
-      emailjs.send("service_o9ldihl", "template_wcswjal", templateParams, "3ucdTMutZLIGYujBt")
+      emailjs.send(process.env.REACT_APP_EMAIL_SERVICE_ID, process.env.REACT_APP_EMAIL_TEMPLATE_ID, templateParams, process.env.REACT_APP_EMAIL_PUBLIC_KEY)
         .then((response) => {
           Swal.fire({
             title: "L'email est bien envoye",
