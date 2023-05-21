@@ -75,8 +75,6 @@ export const joinRoom = (formaData) => async (dispatch) => {
 export const getRoomsBySearch = (search) => async (dispatch) => {
   try {
     dispatch({ type: START_LOADING });
-    // destruction 2 fois comme on fait response.data.data car on met resultat dans un objet data
-    // ou bien  dans payload faire  :data.data
     const { data: { data } } = await api.fetchRoomsBySearch(search);
     dispatch({ type: FETCH_BY_SEARCH, payload: data });
     dispatch({ type: END_LOADING });
