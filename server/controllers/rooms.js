@@ -78,7 +78,7 @@ export const createRoom = async (req, res) => {
         titre: titre,
         description: description,
         tags: tags,
-        theme: `http://localhost:5000/uploads/themes/bg${random}.jpg`,
+        theme: `${process.env.SERVER_URL}/uploads/themes/bg${random}.jpg`,
         createdAt: new Date()
       })
     //  console.log(random)

@@ -6,7 +6,7 @@ export const getAllThemes = async (req, res) => {
     try {
         let tabThemes =[]
         for (let i = 1; i <= 7;i++) {
-            tabThemes.push({image:`http://localhost:5000/uploads/themes/bg${i}.jpg`})
+            tabThemes.push({image:`${process.env.SERVER_URL}/uploads/themes/bg${i}.jpg`})
         }
         res.status(200).json({ tabThemes })
     } catch (error) {
@@ -55,7 +55,7 @@ export const updateTheme = async (req, res) => {
     const { theme, idRoom, idCour } = req.body;
     let tabThemes =[]
     for (let i = 1; i <= 7;i++) {
-        tabThemes.push(`http://localhost:5000/uploads/themes/bg${i}.jpg`)
+        tabThemes.push(`${process.env.SERVER_URL}/uploads/themes/bg${i}.jpg`)
     }
     try {
         if(tabThemes.includes(theme)){
