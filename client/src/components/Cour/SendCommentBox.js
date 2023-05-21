@@ -8,14 +8,14 @@ function SendCommentBox({user , idChapitre,activeRoom}) {
   const [comment,setComment]= useState('')
   const dispatch = useDispatch()
   const sendComment=()=> {
-    dispatch(add_comment({idRoom:activeRoom?._id,idChapitre,content:comment,idUser: user?.result._id}))
+    dispatch(add_comment({idRoom:activeRoom?._id,idChapitre,content:comment,idUser: user?._id}))
     setComment('')
   }
   return (
     <Paper sx={{borderRadius : 3,justifyContent: 'space-between', display: 'flex', alignItems: "center", pl: 1,pr:1,p:1.2,  mb: 2,maxHeight:60}} elevation={4} >
        <Box sx={{ display: 'flex', alignItems: "baseline",width:"100%",pl:2  }}  >
         
-        <Avatar sx={{ bgcolor: "brown", mr: 3 }}>{user?.result.firstName.charAt(0).toUpperCase()}</Avatar>
+        <Avatar sx={{ bgcolor: "brown", mr: 3 }}>{user?.firstName.charAt(0).toUpperCase()}</Avatar>
 
         <TextField
           id="filled-search"

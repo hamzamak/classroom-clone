@@ -13,6 +13,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import secureLocalStorage from 'react-secure-storage'
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import {useReactToPrint} from 'react-to-print'
+import { getUserFromJWT } from '../../utils/User'
 // import jsPDF from 'jspdf';
 // import html2canvas from 'html2canvas';
 function DetailChapitre() {
@@ -20,32 +21,9 @@ function DetailChapitre() {
     const { id } = useParams()
     const dispatch = useDispatch()
     const activeRoom = secureLocalStorage.getItem('activeRoom')
-    const user = JSON.parse(localStorage.getItem('user'))
+    const user = getUserFromJWT()
     const { chapitre, isLoading, comments } = useSelector(state => state.roomReducers)
     const reportTemplateRef = useRef(null);
-
-  /*  const downloadPdfDocument = () => {
-        html2canvas(reportTemplateRef.current,{
-            allowTaint: true ,
-            useCors: true ,
-        })
-          .then((canvas) => {
-              
-              const imgData = canvas.toDataURL('image/png');
-              const pdf = new jsPDF({
-                format: 'a4',
-                unit: 'px',
-                orientation: "landscape",
-                
-            });
-             // pdf.setFontSize(1)
-            //  var width = pdf.internal.pageSize.getWidth();
-            //  var height = pdf.internal.pageSize.getHeight();
-            //  console.log(height)
-              pdf.addImage(imgData, 'JPEG', 0, 0);
-              pdf.save(`${chapitre.titre}`);
-          })
-      }*/
 
       const handlePrint = useReactToPrint({
        content : ()=>reportTemplateRef.current,
@@ -89,7 +67,7 @@ function DetailChapitre() {
                         <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                             <div>
                                 <Typography sx={{ wordBreak: 'break-word' }} variant="h4" component="h2" fontFamily='Nunito'>{chapitre.titre}</Typography>
-                                <Typography variant="body1">{moment(chapitre.createdAt).fromNow()}</Typography>
+                                <Typography variant="body1">{moment(chapitre?.createdAt).fromNow()}</Typography>
                             </div>
                             <Button variant='contained' sx={{ maxHeight: 40 }} startIcon={<FileDownloadIcon />} onClick={handlePrint}> Generer PDF</Button>
                         </div>

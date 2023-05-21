@@ -12,12 +12,13 @@ import DoneAllIcon from '@mui/icons-material/DoneAll';
 import RemoveDoneIcon from '@mui/icons-material/RemoveDone';
 import { deleteChapitre } from '../../actions/chapitres';
 import { delete_comments_by_chapitre } from '../../actions/comments';
+import { getUserFromJWT } from '../../utils/User';
 function Chapitre({ chapitre, setCurrentChapId, setValue }) {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const activeRoom = secureLocalStorage.getItem('activeRoom')
-    const user = JSON.parse(localStorage.getItem('user'))
+    const user = getUserFromJWT()
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
 
@@ -42,14 +43,14 @@ function Chapitre({ chapitre, setCurrentChapId, setValue }) {
     };
 
     const toDetail = () => {
-        if (!user?.result.isProfesseur) dispatch(consulterChapitre({ chapitreId: chapitre._id, idRoom: activeRoom._id, userId: user?.result._id }))
+        if (!user?.isProfesseur) dispatch(consulterChapitre({ chapitreId: chapitre._id, idRoom: activeRoom._id, userId: user?._id }))
 
         navigate(`/active_cour/chaptire/${chapitre._id}`)
     }
     const isChapitreSeenByEtudiant = () => {
         const etudiants = activeRoom?.etudiants;
         for (let i = 0; i < etudiants.length; i++) {
-            if (etudiants[i].etudiant?._id === user?.result._id) {
+            if (etudiants[i].etudiant?._id === user?._id) {
                 for (let j = 0; j < etudiants[i]?.chapitresConsultees.length; j++) {
                     if (etudiants[i]?.chapitresConsultees[j]._id === chapitre._id)
                         return true
@@ -82,7 +83,7 @@ function Chapitre({ chapitre, setCurrentChapId, setValue }) {
                 </Box>
 
             </div>
-            {user?.result?.isProfesseur ? (
+            {user?.isProfesseur ? (
                 <IconButton onClick={handleOpenMenu}>
                     <MoreVertOutlinedIcon />
                 </IconButton>

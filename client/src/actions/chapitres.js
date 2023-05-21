@@ -21,9 +21,13 @@ export const deleteChapitre = (formData) => async (dispatch) => {
     const { data } = await api.deleteChapitre(formData);
 
     dispatch({ type: DELETE_CHAPITRE, payload: data.updatedRoom });
-
+    Swal.fire({
+      title: 'Chapitre a ete supprimee',
+      icon: 'success',
+    })
     dispatch({ type: END_LOADING });
   } catch (error) {
+  
     console.log(error.message);
   }
 };

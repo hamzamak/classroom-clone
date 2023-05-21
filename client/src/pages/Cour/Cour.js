@@ -6,12 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CircularProgress, Paper } from "@mui/material";
+import { getUserFromJWT } from "../../utils/User";
 
 function Cour() {
     const navigate = useNavigate()
-    const user = JSON.parse(localStorage.getItem('user'))
+     const user = getUserFromJWT()
      const dispatch= useDispatch()
-
 
     useEffect(()=> {
         if(!user) navigate('/auth')

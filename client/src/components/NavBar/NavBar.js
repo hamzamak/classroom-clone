@@ -1,21 +1,25 @@
 import { AppBar, Avatar, Box, Button, IconButton, Toolbar, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import * as CustomStyles from './styles'
-import logo from '../../images/logoApp.png'
+import logo from '../../images/logo.png'
 import { useLocation, useNavigate } from 'react-router-dom';
 import CustomDrawer from '../DrawerNavigation/CustomDrawer';
 import { useDispatch } from 'react-redux';
 import { LOGOUT } from '../../constants/actionTypes';
 import decode from 'jwt-decode'
+import { getUserFromJWT } from '../../utils/User';
+import secureLocalStorage from 'react-secure-storage';
+
 function Navbar() {
   const navigate = useNavigate()
   const location = useLocation()
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')))
+  const user = getUserFromJWT()
   const dispatch = useDispatch()
+  
 
   useEffect(() => {
 
-    let token = user?.token
+    let token = secureLocalStorage.getItem('token')
 
     if (token) {
       const decodedToken = decode(token)
@@ -25,12 +29,11 @@ function Navbar() {
       }
     }
 
-    setUser(JSON.parse(localStorage.getItem('user')))
   }, [location])
 
   const logOut = () => {
     dispatch({ type: LOGOUT })
-    setUser(null)
+    // user = null 
     navigate('/auth')
 
   }
@@ -42,14 +45,14 @@ function Navbar() {
 
         {
           user && (
-            <IconButton sx={{ ...CustomStyles.absoluteBtnDrawer }} >
+            <IconButton sx={{ ...CustomStyles.absoluteBtnDrawer }} className='gradient-custom'  >
 
               <CustomDrawer />
             </IconButton>
           )
         }
         <div style={{ ...CustomStyles.brandContainer }} >
-          <img sx={{ ...CustomStyles.image }} src={logo} alt="logo" height="90px" />
+          <img style={{ objectFit: 'cover', marginLeft: 12,cursor: "pointer" }} src={logo} alt="logo" height="32px" onClick={()=> navigate('/')} />
 
         </div>
       </div>
@@ -59,8 +62,10 @@ function Navbar() {
           user && (
 
             <Box sx={{ ...CustomStyles.profile }} >
-              <Avatar sx={{ ...CustomStyles.purple }}  >{user.result?.firstName.charAt(0).toUpperCase()}</Avatar>
-              <Typography sx={{ ...CustomStyles.userName }} variant='h6'>{user.result?.firstName + " " + user.result?.lastName} </Typography>
+              <Avatar sx={{ ...CustomStyles.purple }}  >{user?.firstName.charAt(0).toUpperCase()}</Avatar>
+              <Typography sx={{ ...CustomStyles.userName }} variant='h6'>
+                {user?.firstName + " " + user?.lastName}
+              </Typography>
               <Button variant='contained' sx={{ ...CustomStyles.logout }} color='secondary' onClick={logOut} >Logout</Button>
             </Box>
           )

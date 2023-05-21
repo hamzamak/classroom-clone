@@ -5,19 +5,17 @@ import Divider from '@mui/material/Divider';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import { Avatar, Typography } from '@mui/material';
 import * as CustomStyles from './styles'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 import { deepOrange, deepPurple } from '@mui/material/colors';
 import AutoGraphIcon from '@mui/icons-material/AutoGraph';
-import { useSelector } from 'react-redux';
 import secureLocalStorage from "react-secure-storage";
 import './styles.css'
+import { getUserFromJWT } from '../../utils/User';
 export default function CustomDrawer() {
-  const { rooms } = useSelector((state) => state.roomReducers)
-  const user = JSON.parse(localStorage.getItem('user'))
+  const user = getUserFromJWT()
   const activeRoom = secureLocalStorage.getItem('activeRoom')
 
-  const navigate = useNavigate()
   const [state, setState] = React.useState({
     top: false,
     left: false,
@@ -41,9 +39,9 @@ export default function CustomDrawer() {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <Box sx={{ ...CustomStyles.drawerItem, bgcolor: '#f0ece1' }}>
-        <Avatar alt='First letter of email' sx={{ bgcolor: deepOrange[500], mr: 1 }}  >{user?.result.firstName.toUpperCase().charAt(0)}</Avatar>
-        {user?.result?.email}</Box>
+      <Box sx={{ ...CustomStyles.drawerItem, bgcolor: '#f0ece1' }} >
+        <Avatar alt='First letter of email' sx={{ bgcolor: deepOrange[500], mr: 1 }}  >{user?.firstName.toUpperCase().charAt(0)}</Avatar>
+        {user?.email}</Box>
         
       <Typography sx={{ ...CustomStyles.drawerItem }} component={Link} to="/">
         <HomeIcon sx={{ mr: 1, color: "#777a7c" }} fontSize="large" />Cours
@@ -58,12 +56,12 @@ export default function CustomDrawer() {
         (activeRoom) ? (
           <>
             <Box sx={{ ...CustomStyles.drawerItem }} component={Link} to="/active_cour">
-              <Avatar alt='First letter of email' sx={{ bgcolor: deepPurple[500], mr: 1 }}  >{activeRoom?.cour?.titre.toUpperCase().charAt(0)}</Avatar>
+              <Avatar alt='First letter of email' sx={{ bgcolor: deepPurple[500], mr: 1 }} className='gradient-custom-3'  >{activeRoom?.cour?.titre.toUpperCase().charAt(0)}</Avatar>
               {activeRoom.cour.titre.toUpperCase().charAt(0) + activeRoom.cour.titre.slice(1)}
             </Box>
            
             {
-              user?.result?.isProfesseur &&
+              user?.isProfesseur &&
               <Typography sx={{ ...CustomStyles.drawerItem }} component={Link} to="/statics">
                 <AutoGraphIcon sx={{ mr: 1, color: "#777a7c" }} fontSize="large" />Statistiques
               </Typography>
@@ -74,7 +72,7 @@ export default function CustomDrawer() {
             <Box sx={{ ...CustomStyles.drawerItem }} component={Link} to="/">
               <Avatar alt='First letter of email' sx={{ bgcolor: deepPurple[400], mr: 1, fontWeight: 'bold' }}  >!</Avatar>
               {
-                user?.result?.isProfesseur ? 'Creer ou choisir cour' : 'Rejoindre ou choisir cour'
+                user?.isProfesseur ? 'Creer ou choisir cour' : 'Rejoindre ou choisir cour'
               }
             </Box>
           )

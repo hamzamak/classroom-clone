@@ -8,6 +8,7 @@ import TopicIcon from '@mui/icons-material/Topic';
 import EditorCour from './EditorCour';
 import Chapitres from './Chapitres';
 import secureLocalStorage from 'react-secure-storage';
+import { getUserFromJWT } from '../../utils/User';
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -43,8 +44,8 @@ export default function BasicTabs() {
 
     const [value, setValue] = React.useState(0);
 
-    const user = JSON.parse(localStorage.getItem('user'))
-    const isProfesseur = user?.result?.isProfesseur
+    const user = getUserFromJWT()
+    const isProfesseur = user?.isProfesseur
 
     const handleChange = (event, newValue) => {
         setValue(newValue);

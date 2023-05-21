@@ -1,10 +1,11 @@
 import express from "express";
 
 import { getRoomsByIdUser ,createRoom, RejoindreRoom, getRoomsById, getRoomsBySearch,addChapitre, noticeChapitreConsultee, deleteEtudiants, ask_new_codeRoom, addComments, getComments, deleteComment, deleteComments_ByIdChapitre } from "../controllers/rooms.js";
+import auth from "../middleware/auth.js";
 
 const router = express.Router();
-router.get('/getRoom/:id', getRoomsById)
-router.get('/:userId', getRoomsByIdUser)
+router.get('/getRoom/:id',auth, getRoomsById)
+router.get('/:userId',auth, getRoomsByIdUser)
 router.post('/createRoom', createRoom)
 router.post('/rejoindre', RejoindreRoom)
 

@@ -4,13 +4,15 @@ import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import { delete_comment } from '../../actions/comments';
+import { getUserFromJWT } from '../../utils/User';
 
 function Comment({ comment }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const dispatch = useDispatch()
 
-  const user = JSON.parse(localStorage.getItem('user'))
+  //const user = JSON.parse(localStorage.getItem('user'))
+  const user = getUserFromJWT()
   const handleOpenMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -59,7 +61,7 @@ function Comment({ comment }) {
         </>
 
         {
-          user?.result?.isProfesseur && (
+          user?.isProfesseur && (
 
             <div >
 

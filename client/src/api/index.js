@@ -1,12 +1,14 @@
 import axios from 'axios';
-const API = axios.create({ baseURL: 'https://classroom-yepp.onrender.com' }) //if lanching from local server use http://localhost:5000
+import secureLocalStorage from 'react-secure-storage';
+const API = axios.create({ baseURL: 'http://localhost:5000' })
 
-// API.interceptors.request.use((req)=> {
-//     if(localStorage.getItem('profile'))  {
-//          req.headers.authorization = `Bearer ${JSON.parse(localStorage.getItem('user')).token}`
-//     }
-//     return req ;
-// })
+// intercept requests  before they are handled by then or catch
+API.interceptors.request.use((req)=> {
+    if(secureLocalStorage.getItem('token'))  {
+         req.headers.authorization = `Bearer ${secureLocalStorage.getItem('token')}`
+    }
+    return req ;
+})
 
 
 export const fetchRooms = (userId) => API.get(`/rooms/${userId}`); // fetchRooms by userId

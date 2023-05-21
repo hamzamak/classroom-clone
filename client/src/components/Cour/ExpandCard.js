@@ -15,6 +15,8 @@ import ListeImages from './ListeImages';
 import Swal from 'sweetalert2';
 import './styles.css'
 import { updateTheme } from '../../actions/cours';
+import { getUserFromJWT } from '../../utils/User';
+
 //notistack display notifications on your web apps 
 
 //style
@@ -48,7 +50,7 @@ function ExpandCard() {
 
     const dispatch = useDispatch()
     const [currentTheme, setCurrentTheme] = useState(null)
-    const user = JSON.parse(localStorage.getItem('user'))
+    const user = getUserFromJWT()
     const activeRoom = secureLocalStorage.getItem('activeRoom')
 
 
@@ -107,7 +109,7 @@ function ExpandCard() {
                 alt="theme du cour"
             />
             <CardActions disableSpacing>
-                {user?.result.isProfesseur && (
+                {user?.isProfesseur && (
                     <>
                         <IconButton onClick={handleClickVariant('success')} >
                             <Tooltip title="copier le code du cour" arrow={true} >
@@ -117,7 +119,9 @@ function ExpandCard() {
 
                         <IconButton aria-label="reload_code" onClick={generateNewCode}>
                             <Tooltip title="demander un nouveau code du cour" arrow={true} >
+
                                 <SyncIcon color='primary' />
+
                             </Tooltip>
                         </IconButton>
 
@@ -160,7 +164,7 @@ function ExpandCard() {
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
 
-                    {user?.result.isProfesseur && (
+                    {user?.isProfesseur && (
                         <Typography sx={{ fontFamily: 'Nunito' }} variant='h6' color="crimson">code du cour : <span style={{ color: 'black', fontSize: '16px', fontFamily: 'Nunito' }}>{activeRoom?.code_room}</span></Typography>
 
                     )}

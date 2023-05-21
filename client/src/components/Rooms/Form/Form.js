@@ -6,14 +6,15 @@ import CachedIcon from '@mui/icons-material/Cached';
 import { useDispatch, useSelector } from 'react-redux';
 import { createRoom, joinRoom } from '../../../actions/rooms';
 import { updateCour } from '../../../actions/cours';
+import { getUserFromJWT } from '../../../utils/User';
 
 
 function Form({ currentId, setCurrentId }) {
-  const user = JSON.parse(localStorage.getItem('user'))
+  const user = getUserFromJWT()
 
   const room = useSelector((state) => (currentId ? state.roomReducers.rooms.find((room) => room.cour._id === currentId) : null));
   const dispatch = useDispatch()
-  const [postData, setPostData] = useState({ titre: '', description: '', tags: [],  code_room : '', userId: user?.result?._id, isProfesseur:user?.result?.isProfesseur });
+  const [postData, setPostData] = useState({ titre: '', description: '', tags: [],  code_room : '', userId: user?._id, isProfesseur:user?.isProfesseur });
   const [errorTitre , setError] = useState("")
 
    useEffect(() => {
@@ -28,12 +29,12 @@ function Form({ currentId, setCurrentId }) {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(postData.titre.trim() ==="" && user?.result?.isProfesseur ){
+    if(postData.titre.trim() ==="" && user?.isProfesseur ){
       setError('titre est obligatoire')
     }
     else {
       setError('')
-      if(user?.result?.isProfesseur){
+      if(user?.isProfesseur){
         if (currentId === 0)  dispatch(createRoom(postData)) 
         else dispatch(updateCour(  currentId ,  postData))
       }
@@ -49,9 +50,9 @@ function Form({ currentId, setCurrentId }) {
   return (
     <Paper elevation={6} sx= {{...CustomStyles.paper }}>
       <form autoComplete="off" noValidate  sx= {{...CustomStyles.form , ...CustomStyles.root  }}>
-        <Typography variant="h6" sx={{...CustomStyles.headTypography}}>{ user?.result?.isProfesseur ? ( currentId ? `Editing "${room?.cour?.titre}"` : 'Creating a Cour') : 'Rejoindre un cour'} </Typography>
+        <Typography variant="h6" sx={{...CustomStyles.headTypography}}>{ user?.isProfesseur ? ( currentId ? `Editing "${room?.cour?.titre}"` : 'Creating a Cour') : 'Rejoindre un cour'} </Typography>
         {
-          user?.result?.isProfesseur ? (
+          user?.isProfesseur ? (
             <> 
             <TextField name="titre" variant="outlined" required label="title" fullWidth value={postData.titre} onChange={(e) => setPostData({ ...postData, titre: e.target.value })} margin="dense" helperText={errorTitre} error={errorTitre ? true : false}  />
             <TextField name="description" variant="outlined" label="Description" fullWidth multiline minRows={3} value={postData.description} onChange={(e) => setPostData({ ...postData, description: e.target.value })} margin="dense"  />
@@ -66,8 +67,8 @@ function Form({ currentId, setCurrentId }) {
           )
         }
         
-        <Button  variant="contained" color="primary" size="medium" type="submit" sx= {{...CustomStyles.btn}} fullWidth endIcon={<SendIcon fontSize="inherit"/>} onClick={handleSubmit}>{ currentId ? 'Update' : "Submit"}</Button>
-        <Button variant="contained" color="secondary" size="medium" onClick={clear}  sx= {{...CustomStyles.btn}} fullWidth endIcon={<CachedIcon  fontSize="inherit"/>} >Clear</Button>
+        <Button  variant="contained" color="primary" size="medium" type="submit" sx= {{...CustomStyles.btn}} className='gradient-custom' fullWidth endIcon={<SendIcon fontSize="inherit"/>} onClick={handleSubmit}>{ currentId ? 'Update' : "Submit"}</Button>
+        <Button variant="contained" color="secondary" size="medium" onClick={clear}  sx= {{...CustomStyles.btn}}  fullWidth endIcon={<CachedIcon  fontSize="inherit"/>} >Clear</Button>
       </form>
     </Paper>
   );

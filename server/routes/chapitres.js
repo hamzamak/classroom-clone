@@ -1,13 +1,14 @@
 import express from "express";
 
 import { deleteChapitreById, getChapitreById, updateChapitre} from "../controllers/chapitres.js";
+import auth from "../middleware/auth.js";
 
 const router = express.Router();
  
-router.get('/:id', getChapitreById)
+router.get('/:id',auth, getChapitreById)
 
-router.post('/delete', deleteChapitreById );
+router.post('/delete',auth, deleteChapitreById );
 
-router.patch('/update', updateChapitre );
+router.patch('/update',auth, updateChapitre );
 
 export default router 

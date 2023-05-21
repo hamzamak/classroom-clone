@@ -4,7 +4,7 @@ import secureLocalStorage from 'react-secure-storage';
 const authReducers = (state={authData : null} , action) => {
   switch (action.type) {
     case AUTH:
-       localStorage.setItem('user', JSON.stringify({...action?.data}));
+      secureLocalStorage.setItem('token' , action?.data)  // action?.data c'est le token
        return {...state , authData : action?.data}; 
     
        case LOGOUT:

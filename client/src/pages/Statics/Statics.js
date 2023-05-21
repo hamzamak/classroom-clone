@@ -9,11 +9,13 @@ import EnhancedTable from '../../components/Statics/EnhancedTable';
 import { useNavigate } from 'react-router-dom';
 import secureLocalStorage from 'react-secure-storage';
 import { useSelector } from 'react-redux';
+import { getUserFromJWT } from '../../utils/User';
 
 function Statics() {
 
    const navigate = useNavigate()
-   const user = JSON.parse(localStorage.getItem('user'))
+  // const user = JSON.parse(localStorage.getItem('user'))
+   const user = getUserFromJWT()
    const activeRoom = secureLocalStorage.getItem('activeRoom')
 
    const NbrEtudiants = activeRoom?.etudiants?.length

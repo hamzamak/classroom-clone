@@ -4,10 +4,6 @@ import Comment from "../models/comment.js";
 import Cour from "../models/cour.js";
 import Room from "../models/room.js";
 import User from "../models/user.js";
-
-const baseUrl= "https://classroom-yepp.onrender.com" 
-
-
 function generate_code_room() {
   var pass = '';
   var str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' +
@@ -24,7 +20,10 @@ function generate_code_room() {
 }
 export const getRoomsByIdUser = async (req, res) => {
   const { userId } = req.params;
+  //if(!req.userId) return res.status(404).send(`Not Authentificated`);
   //  if (!mongoose.Types.ObjectId.isValid(userId)) return res.status(404).send(`No user with id: ${userId}`);
+  //console.log(req.headers.authorization)
+
   try {
     const user = await User.findById(userId);
     const isProfesseur = user.isProfesseur;
@@ -42,6 +41,8 @@ export const getRoomsByIdUser = async (req, res) => {
 
       res.status(200).json({ rooms })
     }
+
+
   } catch (error) {
     res.status(404).json({ "message": error })
   }
@@ -52,9 +53,14 @@ export const getRoomsById = async (req, res) => {
   const { id } = req.params;
   //  if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No user with id: ${id}`);
   try {
+
+
     // sort post from newest to oldest
     let room = await Room.findById(id).populate('cour').populate('professeur').populate('chapitres').populate('etudiants.etudiant').populate('etudiants.chapitresConsultees')
     res.status(200).json({ room })
+
+
+
   } catch (error) {
     res.status(404).json({ "message": error })
   }
@@ -64,15 +70,16 @@ export const createRoom = async (req, res) => {
   // const {userId , courId , isProfesseur} = req.body ;
   const { titre, tags, isProfesseur, userId, description } = req.body;
   try {
-    //generer entier entre 1 et 5 include
+    //generer entier entre 1 et 7 include
     if (isProfesseur) {
     
-      let random = Math.floor(Math.random() * 5) + 1
+      let random = Math.floor(Math.random() * 7) + 1
       let cour = new Cour({
         titre: titre,
         description: description,
         tags: tags,
-        theme: `${baseUrl}/uploads/themes/bg${random}.jpg`
+        theme: `http://localhost:5000/uploads/themes/bg${random}.jpg`,
+        createdAt: new Date()
       })
     //  console.log(random)
       const createdCour = await cour.save();
@@ -190,7 +197,8 @@ export const addChapitre = async (req, res) => {
   try {
     const chapitre = new Chapitre({
       titre,
-      contenu
+      contenu,
+      createdAt: new Date()
     })
     await chapitre.save();
     const updatedRoom = await Room.findByIdAndUpdate(idRoom, { $push: { "chapitres": chapitre._id } }, { new: true }).populate('cour').populate('professeur').populate('chapitres').populate('etudiants.etudiant').populate('etudiants.chapitresConsultees')

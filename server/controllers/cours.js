@@ -2,12 +2,11 @@ import mongoose from "mongoose";
 import Cour from "../models/cour.js";
 import Room from "../models/room.js";
 
-const baseUrl= "https://classroom-yepp.onrender.com" //"http://localhost:5000"
 export const getAllThemes = async (req, res) => {
     try {
         let tabThemes =[]
-        for (let i = 1; i <= 5;i++) {
-            tabThemes.push({image:`${baseUrl}/uploads/themes/bg${i}.jpg`})
+        for (let i = 1; i <= 7;i++) {
+            tabThemes.push({image:`http://localhost:5000/uploads/themes/bg${i}.jpg`})
         }
         res.status(200).json({ tabThemes })
     } catch (error) {
@@ -48,15 +47,15 @@ export const updateCour = async (req, res) => {
 
     } catch (error) {
         res.status(404).json({ error })
-    } 
+    }
 
 }
 
 export const updateTheme = async (req, res) => {
     const { theme, idRoom, idCour } = req.body;
     let tabThemes =[]
-    for (let i = 1; i <= 5;i++) {
-        tabThemes.push(`${baseUrl}/uploads/themes/bg${i}.jpg`)
+    for (let i = 1; i <= 7;i++) {
+        tabThemes.push(`http://localhost:5000/uploads/themes/bg${i}.jpg`)
     }
     try {
         if(tabThemes.includes(theme)){

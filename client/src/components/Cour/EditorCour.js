@@ -22,7 +22,14 @@ function EditorCour({ currentChapId, setCurrentChapId, currentChapitre, activeRo
   {
     readonly: false, // all options from https://xdsoft.net/jodit/doc/
     height: 400,
+    "uploader": {
+      "insertImageAsBase64URI": false,
+
+    },
     "disablePlugins": "file,about"
+    // apres il faut faire "disablePlugins": "file,about,video" 
+    // supprimer insertImageAsBase64URI et uploader car taille va etre  tres grande de chap crees cela ghy2tar 3la performance
+    // dik localstorage securestorage adom limite !!!!!!!!
   }
 
   const [htmlContent, setHtmlContent] = useState('')

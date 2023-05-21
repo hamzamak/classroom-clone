@@ -7,9 +7,10 @@ import { useDispatch } from 'react-redux'
 import {getRoom} from '../../../../actions/rooms'
 import EditIcon from '@mui/icons-material/Edit';
 import { useNavigate } from 'react-router-dom'
+import { getUserFromJWT } from '../../../../utils/User';
 
 function Post({room , setCurrentId}) {
- const user = JSON.parse(localStorage.getItem('user'))
+  const user = getUserFromJWT()
 const dispatch= useDispatch()
 const navigate = useNavigate()
   const navigateToRoom =()=>{
@@ -27,7 +28,7 @@ const navigate = useNavigate()
         <Typography variant="body2">{moment(room?.createdAt).fromNow()}</Typography>
       </div>
       <div style= {{...CustomStyles.overlay2}}>
-        {(user?.result?.isProfesseur ) && (
+        {(user?.isProfesseur ) && (
 
           <Button sx={{color : 'white'}} size="medium" onClick={() =>{}}>
             <Tooltip title="modifier votre cour"  onClick={() => setCurrentId(room.cour._id)}>
