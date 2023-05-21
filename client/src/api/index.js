@@ -1,6 +1,6 @@
 import axios from 'axios';
 import secureLocalStorage from 'react-secure-storage';
-const API = axios.create({ baseURL: 'http://localhost:5000' })
+const API = axios.create({ baseURL: 'https://classroom-yepp.onrender.com' })
 
 // intercept requests  before they are handled by then or catch
 API.interceptors.request.use((req)=> {
