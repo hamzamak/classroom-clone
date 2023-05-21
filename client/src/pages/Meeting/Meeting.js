@@ -8,7 +8,6 @@ import { CircularProgress, Paper } from '@mui/material';
 function Meeting() {
     const navigate = useNavigate()
     const activeRoom = secureLocalStorage.getItem('activeRoom')
-    console.log(activeRoom)
     const user = getUserFromJWT()
     function SpinnerView() {
         return (
