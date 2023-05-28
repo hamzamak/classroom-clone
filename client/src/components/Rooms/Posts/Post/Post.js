@@ -43,7 +43,7 @@ const navigate = useNavigate()
       </div>
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">{room.cour.description  ? 
-        (room.cour.description.length>= 61? room.cour.description.substring(0,60) +"..." : room.cour.description) : "pas de description" }</Typography>
+        (room.cour.description.length>= 61? room.cour.description.substring(0,55) +"..." : room.cour.description) : "pas de description" }</Typography>
       </CardContent>
     <CardActions sx= {{...CustomStyles.cardActions}}>
         <Button size="small" color="primary" sx={{alignItems:"center" , display: "flex"}}   onClick={navigateToRoom}>
